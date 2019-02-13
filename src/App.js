@@ -1,7 +1,8 @@
 import React from 'react';
-import Todo from './components/TodoComponents/Todo';
 import TodoForm from './components/TodoComponents/TodoForm';
 import TodoList from './components/TodoComponents/TodoList';
+
+import './components/TodoComponents/Todo.css';
 
 class App extends React.Component {
   // you will need a place to store your state in this component.
@@ -11,26 +12,52 @@ class App extends React.Component {
     super();
     this.state = {
       todos: [],
-      todo: '',
+      todo: {
+        task: '',
+        completed: false
+      }
     }
   }
 
-  handleChange = e => this.setState({ todo: e.target.value });
+  handleChange = e => {
+    this.setState({
+      todo: {
+        task: e.target.value,
+        completed: false
+      }
+    });
+  }
 
   addTodo = e => {
     e.preventDefault();
     this.setState({
-      todos: [...this.state.todos, this.state.todo],
-      todo: ''
+      todos: [ ...this.state.todos, this.state.todo],
+      todo: {
+        task: '',
+        completed: false
+      }
     });
+  }
+
+  toggleTodo = e => {
+    e.preventDefault();
+    console.log(this.state.todos[e.target.id]);
+    e.target.classList.toggle('completed');
   }
 
   render() {
     return (
       <div>
         <h2>Todo List: MVP</h2>
-        <TodoList todos={this.state.todos} />
-        <TodoForm handleChange={this.handleChange} todo={this.state.todo} addTodo={this.addTodo} />
+        <TodoList
+          todos={this.state.todos}
+          toggleTodo={this.toggleTodo}
+        />
+        <TodoForm 
+          handleChange={this.handleChange}
+          value={this.state.todo.task}
+          addTodo={this.addTodo}
+        />
       </div>
     );
   }
