@@ -14,7 +14,8 @@ class App extends React.Component {
       todos: [],
       todo: {
         task: '',
-        completed: false
+        completed: false,
+        id: ''
       }
     }
   }
@@ -23,7 +24,8 @@ class App extends React.Component {
     this.setState({
       todo: {
         task: e.target.value,
-        completed: false
+        completed: false,
+        id: e.target.id
       }
     });
   }
@@ -34,14 +36,34 @@ class App extends React.Component {
       todos: [ ...this.state.todos, this.state.todo],
       todo: {
         task: '',
-        completed: false
+        completed: false,
+        id: ''
       }
     });
   }
 
   toggleTodo = e => {
     e.preventDefault();
-    console.log(this.state.todos[e.target.id]);
+    const completed = this.state.todos[e.target.id].completed ? false : true;
+    const todos = this.state.todos.map(todo => {
+      if (todo.id === e.target.id) {
+        return {
+          task: todo.task,
+          completed,
+          id: todo.id
+        }
+      }
+
+      return {
+        task: todo.task,
+        completed: todo.completed,
+        id: todo.id
+      }
+    });
+
+    this.setState({
+      todos: todos
+    });
     e.target.classList.toggle('completed');
   }
 
@@ -56,6 +78,7 @@ class App extends React.Component {
         <TodoForm 
           handleChange={this.handleChange}
           value={this.state.todo.task}
+          id={this.state.todos.length}
           addTodo={this.addTodo}
         />
       </div>

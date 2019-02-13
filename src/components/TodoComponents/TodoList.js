@@ -9,7 +9,7 @@ const TodoList = (props) => {
         <ul>
             {
                 props.todos.map((todo, i) => <Todo id={i} todo={todo.task} key={i} toggleTodo={props.toggleTodo} />)
-            }
+            }     {/* Our id and key needed in this case because we are dynamically assigning an id in the todo object */}
         </ul>
     );
 }
