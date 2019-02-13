@@ -8,7 +8,7 @@ const TodoList = (props) => {
     return (
         <ul>
             {
-                props.todos.map((todo, i) => <Todo id={i} todo={todo.task} key={i} toggleTodo={props.toggleTodo} />)
+                props.todos.map(todo => <Todo id={todo.id} todo={todo.task} key={todo.id} toggleTodo={props.toggleTodo} />)
             }     {/* Our id and key needed in this case because we are dynamically assigning an id in the todo object */}
         </ul>
     );
