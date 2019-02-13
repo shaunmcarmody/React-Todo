@@ -67,6 +67,16 @@ class App extends React.Component {
     e.target.classList.toggle('completed');
   }
 
+  removeCompleted = e => {
+    e.preventDefault();
+    const todos = this.state.todos.filter(todo => !todo.completed ? todo : false)
+    this.setState({
+      todos
+    });
+    
+    // console.log('works');
+  }
+
   render() {
     return (
       <div>
@@ -80,6 +90,7 @@ class App extends React.Component {
           value={this.state.todo.task}
           id={this.state.todos.length}
           addTodo={this.addTodo}
+          removeCompleted={this.removeCompleted}
         />
       </div>
     );
