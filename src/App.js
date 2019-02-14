@@ -44,18 +44,16 @@ class App extends React.Component {
 
   toggleTodo = e => {
     e.preventDefault();
-    const todos = this.state.todos.map(todo => todo.id !== e.target.id ? todo : { task: todo.task, completed: !todo.completed, id: todo.id });
     this.setState({
-      todos: todos
+      todos: this.state.todos.map(todo => todo.id !== e.target.id ? todo : { task: todo.task, completed: !todo.completed, id: todo.id })
     });
     e.target.classList.toggle('completed');
   }
 
   removeCompleted = e => {
     e.preventDefault();
-    const todos = this.state.todos.filter(todo => !todo.completed ? todo : false)
     this.setState({
-      todos
+      todos: this.state.todos.filter(todo => !todo.completed ? todo : false)
     });
   }
 
