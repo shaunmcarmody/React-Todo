@@ -11,13 +11,22 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      todos: [],
+      todos: this.getItems(),
       todo: {
         task: '',
         completed: false,
         id: ''
       }
     }
+    console.log(this.state.todos);
+  }
+
+  getItems = () => {
+    const store = [];
+    for (let i = 0; i < localStorage.length; i ++) {
+      store.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+    }
+    return store;
   }
 
   handleChange = e => {
@@ -40,14 +49,16 @@ class App extends React.Component {
         id: ''
       }
     });
+    localStorage.setItem(this.state.todo.id, JSON.stringify(this.state.todo));
   }
 
   toggleTodo = e => {
     e.preventDefault();
     this.setState({
-      todos: this.state.todos.map(todo => todo.id !== e.target.id ? todo : { task: todo.task, completed: !todo.completed, id: todo.id })
+      todos: this.state.todos.map(todo => todo.id !== e.target.id ? todo : {...todo, completed: !todo.completed })
     });
-    e.target.classList.toggle('completed');
+    const todo = JSON.parse(localStorage.getItem(e.target.id));
+    localStorage.setItem(e.target.id, JSON.stringify({...todo, completed: !todo.completed }));
   }
 
   removeCompleted = e => {
@@ -55,6 +66,7 @@ class App extends React.Component {
     this.setState({
       todos: this.state.todos.filter(todo => !todo.completed ? todo : false)
     });
+    this.state.todos.forEach(todo => todo.completed ? localStorage.removeItem(todo.id) : null);
   }
 
   render() {
